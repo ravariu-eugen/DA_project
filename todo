@@ -1,0 +1,13 @@
+choose used technologies
+    docker
+    kubernetes
+    graphana
+    prometheus
+    kafka
+    kraft
+
+
+create basic app with kafka producer and consumer
+
+
+

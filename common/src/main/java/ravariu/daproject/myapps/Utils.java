@@ -8,7 +8,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class Utils {
-	private static final String bootstrapServers = "kafka:9092";
+	private static final String bootstrapServers = "localhost:9092";
+	public static final String KAFKA_BROKER = "KAFKA_BROKER";
 
 	public static Properties createProperties() {
 		Properties properties = new Properties();
@@ -22,7 +23,7 @@ public class Utils {
 
 
 	public static String getBootstrapServers() {
-		String value = System.getenv("KAFKA_BROKER");
-		return value != null ? value : "localhost:9092";
+		String value = System.getenv(KAFKA_BROKER);
+		return value != null ? value : bootstrapServers;
 	}
 }

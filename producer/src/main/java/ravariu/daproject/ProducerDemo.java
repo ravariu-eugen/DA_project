@@ -5,15 +5,15 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ravariu.daproject.myapps.KafkaUtils;
 import ravariu.daproject.myapps.Utils;
 
 import java.util.Properties;
 
 public class ProducerDemo {
-	private static final Logger log = LogManager.getLogger(ProducerDemo.class);
+	private static final Logger log = LoggerFactory.getLogger(ProducerDemo.class);
 
 
 	public void run() {
@@ -35,7 +35,7 @@ public class ProducerDemo {
 				Thread.sleep(5000);
 				ProducerRecord<String, String> producerRecord =
 						new ProducerRecord<>("quickstart-events", "||" + System.currentTimeMillis());
-				System.out.println("Key: " + producerRecord.key() + ", Value: " + producerRecord.value());
+				log.info("Key: {}, Value: {}", producerRecord.key(), producerRecord.value());
 				producer.send(producerRecord);
 				for (int i = 0; i < 10; i++) {
 					// create a producer record

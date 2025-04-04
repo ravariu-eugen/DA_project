@@ -21,7 +21,7 @@ public class KafkaUtils {
 				log.info("Topic {} created", topicName);
 			} else {
 
-				log.info("Topic {} already exists", topicName);
+				log.warn("Topic {} already exists", topicName);
 			}
 
 
@@ -30,5 +30,9 @@ public class KafkaUtils {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void main(String[] args) {
+		log.info("Creating topic quickstart-events");
 	}
 }

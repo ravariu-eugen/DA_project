@@ -7,6 +7,8 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ravariu.daproject.myapps.KafkaUtils;
 import ravariu.daproject.myapps.Utils;
 
@@ -16,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 
 
 public class ConsumerDemo {
+	private static Logger logger = LoggerFactory.getLogger(ConsumerDemo.class);
 
 	public static void main(String[] args) {
 
@@ -33,18 +36,19 @@ public class ConsumerDemo {
 	}
 
 	public void run() {
-
+		logger.info("Kafka Streams application has started");
 
 		StreamsBuilder builder = new StreamsBuilder();
 		var props = createProperties();
 
-		KafkaUtils.createTopic("WordsWithCountsTopic", 1, (short) 1);
-
+		var topic = "ChareCountsTopic";
+		KafkaUtils.createTopic(topic, 1, (short) 1);
+		logger.info("Created topic {}", topic);
 		KStream<String, String> textLines = builder.stream("quickstart-events");
 
 		KTable<String, Long> wordCounts = textLines
 				.flatMapValues(textLine -> {
-					System.out.println(textLine);
+					logger.info(textLine);
 
 					return Arrays.asList(textLine.toLowerCase().split("\\W+"));
 				})
@@ -52,26 +56,27 @@ public class ConsumerDemo {
 				.count(Materialized.as("counts-store"));
 		wordCounts.toStream().to("WordsWithCountsTopic");
 
-		try (KafkaStreams streams = new KafkaStreams(builder.build(), props)) {
-			streams.start();
-			System.out.println("Kafka Streams started");
 
-			final CountDownLatch latch = new CountDownLatch(1);
-			// attach shutdown handler to catch control-c
-			Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
-				@Override
-				public void run() {
-					streams.close();
-					latch.countDown();
-				}
-			});
+		KafkaStreams streams = new KafkaStreams(builder.build(), props);
 
-			try {
-				streams.start();
-				latch.await();
-			} catch (InterruptedException e) {
-				System.exit(1);
+		streams.start();
+		logger.info("Kafka Streams started");
+
+		final CountDownLatch latch = new CountDownLatch(1);
+		// attach shutdown handler to catch control-c
+		Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
+			@Override
+			public void run() {
+				streams.close();
+				latch.countDown();
 			}
+		});
+
+		try {
+			streams.start();
+			latch.await();
+		} catch (InterruptedException e) {
+			System.exit(1);
 		}
 
 

@@ -43,7 +43,7 @@ public class Pipe {
 				.count(Materialized.as("counts-store"))
 				.toStream()
 				.map((String key, Long value) -> {
-					log.info("key = {}, value = {}", key, value);
+					System.out.println("key = " + key + ", value " + value);
 					return new KeyValue<>(key, value);
 				})
 				.to(output_topic, Produced.with(Serdes.String(), Serdes.Long()));

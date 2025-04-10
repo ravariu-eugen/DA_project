@@ -1,7 +1,7 @@
 version: '3'
 services:
   kafka:
-    image: apache/kafka:4.0.0
+    build: ./kafka
     networks:
       - kafka-net
     container_name: kafka
@@ -19,6 +19,10 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      #- KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099
+      #- KAFKA_JMX_PORT=1099
+      #- KAFKA_OPTS=javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.20.0.jar=9200:/usr/share/jmx_exporter/kafka.yml
+
 
     ports:
       - "9092:9092"
@@ -26,7 +30,9 @@ services:
       - "9094:9094"
     expose:
       - '29092'
-
+      - '1099'
+    volumes:
+      - ./jmx_exporter:/usr/share/jmx_exporter/
 
   
   producer:
@@ -80,7 +86,7 @@ services:
     networks:
       - kafka-net
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/etc/prometheus
     ports:
       - "9090:9090"
 

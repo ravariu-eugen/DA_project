@@ -41,16 +41,15 @@ public class SimpleConsumer {
 			consumer.subscribe(List.of(topic));
 			while (true) {
 				var records = consumer.poll(Duration.ofMillis(100));
-				if (records.count() != 0) {
-					log.info("Received {} records", records.count());
+				if (records.count() == 0) {
+
+					continue;
 				}
+				log.info("Received {} records", records.count());
 
-				var recordsList = records.records(topic);
-
-				var rl = StreamSupport.stream(recordsList.spliterator(), false)
+				var rl = StreamSupport.stream(records.records(topic).spliterator(), false)
 						.sorted(Comparator.comparing(ConsumerRecord::key))
 						.collect(Collectors.toList());
-
 				for (var record : rl) {
 					var key = record.key();
 					var value = record.value();

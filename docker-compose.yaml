@@ -22,8 +22,10 @@ services:
       #- KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099
       #- KAFKA_JMX_PORT=1099
       #- KAFKA_OPTS=javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.20.0.jar=9200:/usr/share/jmx_exporter/kafka.yml
+      - KAFKA_OPTS=-javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/prom-jmx-agent-config.yml
 
-
+    
+    
     ports:
       - "9092:9092"
       - "9093:9093"
@@ -33,7 +35,7 @@ services:
       - '1099'
     volumes:
       - ./jmx_exporter:/usr/share/jmx_exporter/
-
+  
   
   producer:
     image: producer_img

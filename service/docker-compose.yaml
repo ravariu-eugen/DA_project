@@ -1,7 +1,7 @@
 version: '3'
 services:
   kafka:
-    build: ./kafka
+    build: kafka
     networks:
       - kafka-net
     container_name: kafka
@@ -19,8 +19,7 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
-      -
-      - KAFKA_OPTS=-javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/prom-jmx-agent-config.yml
+      - #      - KAFKA_OPTS=-javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/prom-jmx-agent-config.yml
 
     
     

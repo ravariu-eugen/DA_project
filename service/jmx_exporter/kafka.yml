@@ -1,9 +1,0 @@
-startDelaySeconds: 0
-hostPort: 127.0.0.1:7071
-rules:
-  - pattern: "kafka.server<type=(.+), name=(.+)><>(Count|Value)"
-    name: "kafka_$1_$2"
-    type: GAUGE
-    labels:
-      instance: "kafka-1"
-

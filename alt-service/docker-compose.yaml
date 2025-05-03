@@ -32,3 +32,15 @@ services:
       KAFKA_OPTS: -javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/prom-jmx-agent-config.yml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+
+#  kafka-ui:
+#    image: kafbat/kafka-ui:main
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      DYNAMIC_CONFIG_ENABLED: "true"
+#      KAFKA_CLUSTERS_0_NAME: local
+#      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+#    depends_on:
+#      - kafka

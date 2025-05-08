@@ -10,4 +10,8 @@ choose used technologies
 create basic app with kafka producer and consumer
 
 
+fix prometheus-config
 
+add multiple brokers
+
+add

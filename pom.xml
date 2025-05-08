@@ -13,6 +13,8 @@
         <module>consumer</module>
         <module>producer</module>
         <module>pipe</module>
+        <module>LogGeneratorApp</module>
+        <module>LogNormalizerApp</module>
     </modules>
 
     <properties>

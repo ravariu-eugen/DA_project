@@ -5,5 +5,4 @@ metadata:
   labels:
     name: prometheus-config
 data:
-  prometheus.yml: |
-    ../../prometheus/prometheus.yml
+  prometheus.yml: ../../prometheus/prometheus.yml

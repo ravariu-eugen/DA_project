@@ -1,0 +1,10 @@
+topic replication and partitioning
+
+consumer offset management
+
+checkpointing
+
+ Idempotent Producers and Exactly-Once Semantics
+
+  Dead Letter Queues (DLQs) and Error Handling Pipelines
+

@@ -1,9 +1,8 @@
 version: '3'
 services:
   kafka:
-    #    image: apache/kafka:latest
-    #    image: confluentinc/cp-kafka
-    build: ./kafka
+    image: apache/kafka:4.0.0
+
     #    networks:
     #      - kafka-net
     container_name: kafka
@@ -12,16 +11,15 @@ services:
 
       CLUSTER_ID: "kafka-cluster"
       # Configure listeners for both docker and host communication
-      KAFKA_LISTENERS: CONTROLLER://localhost:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093 ,PROM://0.0.0.0:7071
-      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9092,DOCKER://kafka:9093 #,PROM://kafka:7071
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT, PROM:PLAINTEXT
+      KAFKA_LISTENERS: CONTROLLER://localhost:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9092,DOCKER://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT
 
       # Settings required for KRaft mode
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9091
-
 
       # Listener to use for broker-to-broker communication
       KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
@@ -33,31 +31,21 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
-      KAFKA_ADVERTISED_HOST_NAME: kafka
 
-
-    #      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka:29092
-    #      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
-    #      CONFLUENT_METRICS_ENABLE: 'false'
-
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.ssl=false \
+  -Djava.rmi.server.hostname=kafka \
+  -Djava.net.preferIPv4Stack=true \
+  -Dcom.sun.management.jmxremote.rmi.port=7070 \
+  -Dcom.sun.management.jmxremote.local.only=false \
+  -javaagent:/usr/app/jmx_prometheus_javaagent-1.2.0.jar=kafka:7071:/usr/app/prom-jmx-agent-config.yaml"
     ports:
       - "9092:9092"
-      - "9991:9991"
-      - "7071:7071"
     volumes:
+      - ./kafka/jmx_exporter:/usr/app
       - /var/run/docker.sock:/var/run/docker.sock
 
-  jmx-kafka:
-    image: "sscaling/jmx-prometheus-exporter"
-    ports:
-      - "5556:5556"
-    environment:
-      CONFIG_YML: "/etc/jmx_exporter/config.yml"
-    volumes:
-      - ./kafka/jmx_exporter/jmx_exporter.yaml:/etc/jmx_exporter/config.yml
-    container_name: jmx-kafka101
-    depends_on:
-      - kafka
 
 
 

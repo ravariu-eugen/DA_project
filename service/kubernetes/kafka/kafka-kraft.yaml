@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kafka
-          image: your-kafka-image:latest
+          image: apache/kafka:4.0.0
           ports:
             - containerPort: 9092
             - containerPort: 7071
@@ -22,12 +22,14 @@ spec:
           env:
             - name: CLUSTER_ID
               value: "kafka-cluster"
+            # Configure listeners for both docker and host communication
             - name: KAFKA_LISTENERS
               value: "CONTROLLER://localhost:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093,PROM://0.0.0.0:7071"
             - name: KAFKA_ADVERTISED_LISTENERS
               value: "HOST://localhost:9092,DOCKER://kafka:9093"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: "CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT,PROM:PLAINTEXT"
+            # Settings required for KRaft mode
             - name: KAFKA_NODE_ID
               value: "1"
             - name: KAFKA_PROCESS_ROLES
@@ -36,8 +38,10 @@ spec:
               value: "CONTROLLER"
             - name: KAFKA_CONTROLLER_QUORUM_VOTERS
               value: "1@localhost:9091"
+            # Listener to use for broker-to-broker communication
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: "DOCKER"
+            # Required for a single node cluster
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "1"
             - name: ALLOW_PLAINTEXT_LISTENER
@@ -50,6 +54,8 @@ spec:
               value: "true"
             - name: KAFKA_ADVERTISED_HOST_NAME
               value: "kafka"
+
+
           volumeMounts:
             - name: docker-sock
               mountPath: /var/run/docker.sock
@@ -66,9 +72,9 @@ spec:
   selector:
     app: kafka
   ports:
-    - port: 9092
+    - name: kafka-broker
+      port: 9092
       targetPort: 9092
-    - port: 7071
+    - name: kafka-jmx
+      port: 7071
       targetPort: 7071
-    - port: 9991
-      targetPort: 9991

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: producer
+  namespace: kafka-cluster
 spec:
   replicas: 1
   selector:
@@ -15,6 +16,9 @@ spec:
       containers:
         - name: producer
           image: producer_img
+          envFrom:
+            - configMapRef:
+                name: kafka-broker-config
           env:
-            - name: KAFKA_BROKER
-              value: "kafka:9093"
+            - name: MESSAGE_RATE
+              value: "20"

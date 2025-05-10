@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-broker-config
+  namespace: kafka-cluster
+data:
+  KAFKA_BROKER: kafka-0:9092,kafka-1:9092,kafka-2:9092

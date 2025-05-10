@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
+  namespace: kafka-cluster
 spec:
   replicas: 1
   selector:
@@ -14,21 +15,30 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: prom/prometheus:latest
+          image: prom/prometheus
+          args:
+            - '--config.file=/etc/prometheus/prometheus.yml'
           ports:
             - containerPort: 9090
           volumeMounts:
-            - name: prometheus-config-volume
+            - name: prometheus-config
               mountPath: /etc/prometheus
+            - name: prom-data
+              mountPath: /prometheus
       volumes:
-        - name: prometheus-config-volume
-          configMap:
-            name: prometheus-config
+        - name: prometheus-config
+          hostPath:
+            path: ./prometheus
+        - name: prom-data
+          emptyDir: { }
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
+  namespace: kafka-cluster
 spec:
   selector:
     app: prometheus

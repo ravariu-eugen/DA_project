@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
+  namespace: kafka-cluster
 spec:
   replicas: 1
   selector:
@@ -14,24 +15,34 @@ spec:
     spec:
       containers:
         - name: grafana
-          image: grafana/grafana:latest
+          image: grafana/grafana
           ports:
             - containerPort: 3000
           env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
             - name: GF_SECURITY_ADMIN_PASSWORD
-              value: "admin"
+              value: admin
           volumeMounts:
-            - name: grafana-storage
-              mountPath: /var/lib/grafana
+            - name: grafana-provisioning
+              mountPath: /etc/grafana/provisioning
+            - name: grafana-dashboards
+              mountPath: /var/lib/grafana/dashboards
       volumes:
-        - name: grafana-storage
-          persistentVolumeClaim:
-            claimName: grafana-data
+        - name: grafana-provisioning
+          hostPath:
+            path: ./grafana/provisioning
+        - name: grafana-dashboards
+          hostPath:
+            path: ./grafana/dashboards
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: grafana
+  namespace: kafka-cluster
 spec:
   selector:
     app: grafana

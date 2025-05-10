@@ -35,6 +35,8 @@ public class Pipe {
 		var output_topic = "character-count";
 
 
+//		KafkaUtils.createTopic(input_topic, 6, (short) 3);
+//		KafkaUtils.createTopic(output_topic, 6, (short) 3);
 		builder.<String, String>stream(input_topic).flatMapValues(value -> {
 					System.out.println(value);
 					return List.of(value.split(""));

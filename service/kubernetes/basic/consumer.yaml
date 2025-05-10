@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consumer
+  namespace: kafka-cluster
 spec:
   replicas: 1
   selector:
@@ -15,6 +16,6 @@ spec:
       containers:
         - name: consumer
           image: consumer_img
-          env:
-            - name: KAFKA_BROKER
-              value: "kafka:9093"
+          envFrom:
+            - configMapRef:
+                name: kafka-broker-config

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-ui
+  namespace: kafka-cluster
 spec:
   replicas: 1
   selector:
@@ -14,23 +15,31 @@ spec:
     spec:
       containers:
         - name: kafka-ui
-          image: kafbat/kafka-ui:main
+          image: provectuslabs/kafka-ui:latest
           ports:
             - containerPort: 8080
           env:
             - name: DYNAMIC_CONFIG_ENABLED
               value: "true"
-            - name: KAFKA_CLUSTERS_0_NAME
-              value: "local"
-            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
-              value: "kafka:9093"
+          volumeMounts:
+            - name: kafka-ui-config
+              mountPath: /etc/kafkaui
+              readOnly: true
+      volumes:
+        - name: kafka-ui-config
+          hostPath:
+            path: ./kafka-ui/config.yml
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: kafka-ui
+  namespace: kafka-cluster
 spec:
   selector:
     app: kafka-ui
   ports:
     - port: 8080
+      targetPort: 8080

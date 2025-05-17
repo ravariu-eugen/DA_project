@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      labels:
+        app: producer
+    spec:
+      containers:
+        - name: producer
+          image: producer_img
+          imagePullPolicy: Never
+          env:
+            - name: MESSAGE_RATE
+              value: "20"
+            - name: KAFKA_BROKER
+              value: "my-kafka.default.svc.cluster.local:9092"

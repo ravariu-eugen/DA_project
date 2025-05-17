@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pipe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipe
+  template:
+    metadata:
+      labels:
+        app: pipe
+    spec:
+      containers:
+        - name: pipe
+          image: pipe_img
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: kafka-broker-config

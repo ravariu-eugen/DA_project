@@ -1,12 +1,12 @@
 listeners:
   client:
     protocol: PLAINTEXT
-  controller:
-    protocol: PLAINTEXT
-  interbroker:
-    protocol: PLAINTEXT
-  external:
-    protocol: PLAINTEXT
+#  controller:
+#    protocol: PLAINTEXT
+#  interbroker:
+#    protocol: PLAINTEXT
+#  external:
+#    protocol: PLAINTEXT
 
 
 metrics:
@@ -14,6 +14,7 @@ metrics:
     enabled: true
 
 provisioning:
+  enabled: true
   numPartitions: 3
   replicationFactor: 6
 

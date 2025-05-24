@@ -3,8 +3,8 @@ server:
     - job_name: 'kafka'
       # metrics_path defaults to '/metrics'
       # scheme defaults to 'http'.
-      scrape_interval: 60s
-      scrape_timeout: 60s
+      scrape_interval: 15s
+      scrape_timeout: 15s
       static_configs:
         - targets: [ 'my-kafka-jmx-metrics.kafka.svc.cluster.local:5556' ]
 

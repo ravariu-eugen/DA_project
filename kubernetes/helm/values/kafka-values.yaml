@@ -1,0 +1,20 @@
+listeners:
+  client:
+    protocol: PLAINTEXT
+  controller:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  external:
+    protocol: PLAINTEXT
+
+
+metrics:
+  jmx:
+    enabled: true
+
+provisioning:
+  numPartitions: 3
+  replicationFactor: 6
+
+#sasl.client.passwords: "user"

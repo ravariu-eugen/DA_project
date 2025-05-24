@@ -1,9 +1,0 @@
-listeners.client.protocol: PLAINTEXT
-listeners.controller.protocol: PLAINTEXT
-listeners.interbroker.protocol: PLAINTEXT
-listeners.external.protocol: PLAINTEXT
-
-
-metrics:
-  jmx:
-    enabled: true

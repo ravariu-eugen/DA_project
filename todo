@@ -7,11 +7,7 @@ choose used technologies
     kraft
 
 
-create basic app with kafka producer and consumer
 
+create a litmus chaos experiment to delete containers
 
-fix prometheus-config
-
-add multiple brokers
-
-add
+create a litmus chaos experiment to delay messages

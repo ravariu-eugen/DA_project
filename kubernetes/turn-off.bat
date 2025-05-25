@@ -1,3 +1,4 @@
-::kubectl delete -f .\basic\
 
-kubectl delete -f .\namespace.yaml
+
+kubectl delete -f .\basic\ -n kafka-basic
+

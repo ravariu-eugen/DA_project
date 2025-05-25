@@ -4,9 +4,12 @@ helm install my-kafka -n=kafka  -f ../values/kafka-values.yaml bitnami/kafka
 
 kubectl create ns monitoring
 
-helm install prometheus -n=monitoring -f ../values/prometheus-values.yaml bitnami/prometheus
+helm install prometheus -n=monitoring -f ../values/prometheus-values.yaml prometheus-community/prometheus
+
+
 
 helm install grafana -n=monitoring -f ../values/grafana-values.yaml bitnami/grafana
+::helm install grafana -n=monitoring -f ../values/grafana-values.yaml grafana/grafana
 
 helm install kafka-ui -n=monitoring -f ../values/kafka-ui-values.yaml kafka-ui/kafka-ui
 

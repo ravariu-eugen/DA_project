@@ -20,4 +20,4 @@ spec:
             - name: MESSAGE_RATE
               value: "20"
             - name: KAFKA_BROKER
-              value: "my-kafka.default.svc.cluster.local:9092"
+              value: "my-kafka.kafka.svc.cluster.local:9092"

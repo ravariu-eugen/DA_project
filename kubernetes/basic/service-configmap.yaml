@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: kafka-broker-config
 data:
-  KAFKA_BROKER: my-kafka.default.svc.cluster.local:9092
+  KAFKA_BROKER: my-kafka.kafka.svc.cluster.local:9092

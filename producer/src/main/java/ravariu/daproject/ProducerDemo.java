@@ -7,6 +7,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ravariu.daproject.myapps.KafkaUtils;
 import ravariu.daproject.myapps.Utils;
 
 import java.util.Properties;
@@ -40,7 +41,7 @@ public class ProducerDemo {
 		properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
 
-//		KafkaUtils.createTopic(topic, 6, (short) 3);
+		KafkaUtils.createTopic(topic, 6, (short) 3);
 		// create the producer
 
 		long sleepTime = (long) (1000 / getRate());

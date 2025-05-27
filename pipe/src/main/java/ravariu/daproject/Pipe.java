@@ -6,6 +6,7 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ravariu.daproject.myapps.KafkaUtils;
 import ravariu.daproject.myapps.Utils;
 
 import java.util.List;
@@ -35,8 +36,8 @@ public class Pipe {
 		var output_topic = "character-count";
 
 
-//		KafkaUtils.createTopic(input_topic, 6, (short) 3);
-//		KafkaUtils.createTopic(output_topic, 6, (short) 3);
+		KafkaUtils.createTopic(input_topic, 6, (short) 3);
+		KafkaUtils.createTopic(output_topic, 6, (short) 3);
 		builder.<String, String>stream(input_topic).flatMapValues(value -> {
 					System.out.println(value);
 					return List.of(value.split(""));

@@ -7,6 +7,7 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ravariu.daproject.myapps.KafkaUtils;
 import ravariu.daproject.myapps.Utils;
 
 import java.time.Duration;
@@ -35,7 +36,7 @@ public class SimpleConsumer {
 		// Create Kafka consumer
 
 		// Subscribe to topic
-		//KafkaUtils.createTopic(topic, 1, (short) 1);
+		KafkaUtils.createTopic(topic, 6, (short) 3);
 
 		try (KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(properties, new StringDeserializer(), new LongDeserializer())) {
 			consumer.subscribe(List.of(topic));

@@ -1,4 +1,6 @@
 kubectl create ns kafka
+kubectl apply -n=kafka -f ../values/kafka-metrics-configmap.yaml
+
 
 helm install my-kafka -n=kafka  -f ../values/kafka-values.yaml bitnami/kafka
 

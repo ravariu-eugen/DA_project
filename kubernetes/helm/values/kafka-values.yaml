@@ -1,21 +1,42 @@
 listeners:
   client:
     protocol: PLAINTEXT
-#  controller:
-#    protocol: PLAINTEXT
-#  interbroker:
-#    protocol: PLAINTEXT
-#  external:
-#    protocol: PLAINTEXT
-
-
-metrics:
-  jmx:
-    enabled: true
+  controller:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  external:
+    protocol: PLAINTEXT
 
 provisioning:
   enabled: true
   numPartitions: 3
   replicationFactor: 6
+
+controller:
+  replicaCount: 5
+#  persistence:
+#    enabled: false
+
+
+extraConfig: "default.replication.factor=3;num.partitions=6;min.insync.replicas=2"
+
+
+metrics:
+  jmx:
+    enabled: true
+    existingConfigmap: u-kafka-jmx-configuration
+
+
+#
+#extraConfig: |-
+#  default.replication.factor=3
+#  num.partitions=6
+#  min.insync.replicas=2
+
+
+
+
+
 
 #sasl.client.passwords: "user"

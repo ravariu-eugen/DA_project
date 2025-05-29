@@ -15,6 +15,7 @@ provisioning:
 
 controller:
   replicaCount: 5
+  resourcesPreset: "medium"
 #  persistence:
 #    enabled: false
 

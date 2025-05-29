@@ -1,0 +1,14 @@
+kind: PodChaos
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  namespace: kafka
+  name: pod-failure-2
+  annotations:
+    experiment.chaos-mesh.org/pause: 'true'
+spec:
+  selector:
+    namespaces:
+      - kafka
+  mode: fixed
+  value: '2'
+  action: pod-failure
